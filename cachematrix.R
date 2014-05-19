@@ -12,7 +12,11 @@
 ## xspecial$isCalculated() # should return TRUE because we've calculated the inverse.
 ## identical(xinv, xspecialInv) # should return TRUE because they are both the inverse of x
 
-## returns a collection of functions 
+## returns a collection of functions that wrap x
+## those functions are 
+## $getInverse which return the [cached] inverse of x and
+## $isCalculated which can be used to determine if the inverse has already be
+##               caculated.
 makeCacheMatrix <- function(x = matrix()) {
   cachedInverse <- NULL
   
@@ -23,7 +27,7 @@ makeCacheMatrix <- function(x = matrix()) {
   }
   
   ## do the 'solve' part here. if the cache is NULL compute the cache,
-  ## then return the case.
+  ## then return the cache.
   getInverse <- function() {
     if (is.null(cachedInverse)) {
       cachedInverse <<- solve(x)
@@ -37,9 +41,10 @@ makeCacheMatrix <- function(x = matrix()) {
 }
 
 
-## fetch the inverse from the object.
+## fetch the inverse from the special matrix object.
 cacheSolve <- function(x, ...) {
   ## Return a matrix that is the inverse of 'x'
+  ## utilizes cached value (or calculates it).
   x$getInverse()
 }
 
